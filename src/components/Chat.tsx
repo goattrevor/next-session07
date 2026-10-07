@@ -9,6 +9,13 @@ import {
 } from "@/lib/chat";
 import Image from "next/image";
 
+// 이름의 받침 유무에 따라 조사를 고릅니다. (예: 금태양과 / 치이카와와)
+function withParticle(name: string, withBatchim: string, withoutBatchim: string) {
+  const code = name.charCodeAt(name.length - 1) - 0xac00;
+  const hasBatchim = code >= 0 && code <= 11171 && code % 28 !== 0;
+  return name + (hasBatchim ? withBatchim : withoutBatchim);
+}
+
 export default function Chat({ character }: { character: CharacterDisplay }) {
   // 성공한 대화만 기록합니다. 첫 인사는 화면에서 별도로 보여 주는 설정 문구입니다.
   // [확장 포인트] 새로고침 후에도 기록을 유지하려면 초기 조회와 성공 시 DB 저장을 연결합니다.
@@ -123,7 +130,7 @@ export default function Chat({ character }: { character: CharacterDisplay }) {
 
   return (
     <main className="shell">
-      <section className="chat-card" aria-label={`${character.name}와 대화`}>
+      <section className="chat-card" aria-label={`${withParticle(character.name, "과", "와")} 대화`}>
         <header className="chat-header">
           {/* 캐릭터 사진 넣는 자리 */}
           <div className="character-photo-slot" aria-label="캐릭터 사진 자리">
@@ -160,7 +167,7 @@ export default function Chat({ character }: { character: CharacterDisplay }) {
           aria-live="polite"
         >
           <p className="conversation-start">
-            <span /> {character.name}를 발견했다! <span />
+            <span /> {withParticle(character.name, "을", "를")} 발견했다! <span />
           </p>
           <article className="message assistant">
             <span className="speaker">{character.name}</span>
@@ -188,7 +195,7 @@ export default function Chat({ character }: { character: CharacterDisplay }) {
                   <i />
                   <i />
                 </span>
-                {character.name}가 답변을 생각하고 있어요…
+                {withParticle(character.name, "이", "가")} 답변을 생각하고 있어요…
               </p>
             </>
           )}
