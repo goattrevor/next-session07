@@ -9,7 +9,7 @@ import {
 } from "@/lib/chat";
 import Image from "next/image";
 
-// 이름의 받침 유무에 따라 조사를 고릅니다. (예: 금태양과 / 치이카와와)
+// 이름의 받침 유무에 따라 조사를 고릅니다. (예: 이성민과 / 치이카와와)
 function withParticle(name: string, withBatchim: string, withoutBatchim: string) {
   const code = name.charCodeAt(name.length - 1) - 0xac00;
   const hasBatchim = code >= 0 && code <= 11171 && code % 28 !== 0;
